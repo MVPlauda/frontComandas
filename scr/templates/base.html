@@ -61,8 +61,14 @@
         <h3>{{ msg }}</h3><br>
 
         {% elif request.args.get('msgErro'): %}
-
-        <h3>{{ request.args.get('msgErro') }}</h3><br>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "{{ request.args.get('msgErro') }}",
+            });
+        </script>
 
         {% elif msgErro: %}
 
