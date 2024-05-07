@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template
-bp_index = Blueprint('home', __name__, url_prefix="/", template_folder='templates')
+bp_index = Blueprint('index', __name__, url_prefix="/home", template_folder='templates')
 
 ''' rotas dos formulários '''
 @bp_index.route('/')

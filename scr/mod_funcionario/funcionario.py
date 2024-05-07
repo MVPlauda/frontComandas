@@ -6,6 +6,10 @@ bp_funcionario = Blueprint('funcionario', __name__, url_prefix="/funcionario", t
 def formListaFuncionario():
     return render_template('formListaFuncionario.html'), 200
 
+@bp_funcionario.route('/form-funcionario/', methods=['GET'])
+def formFuncionario():
+    return render_template('formFuncionario.html')
+
 
 #Rota antiga de app...
 #@app.route('/funcionario/')

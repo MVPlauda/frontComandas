@@ -1,14 +1,38 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Clientes</title>
-</head>
+{% block title %}Clientes{% endblock %}
 
-<body>
-    <h1>Rota da página de CLIENTES da nossa WEB APP</h1>
-    <h1>Uso de render_template</h1>
-</body>
-
-</html>
+{% block content %}
+<form action="{{ url_for('cliente.formCliente') }}" method="GET">
+    <h1>Cliente</h1>
+    <button type="submit" class="btn btn-warning" name="formNovo">Novo Cliente</button>
+</form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Matricula</th>
+            <th scope="col">CPF</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Login</th>
+            <th scope="col">Senha</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">...</th>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+            <td><i class="fas fa-edit"></i></td>
+            <td><i class="fas fa-trash"></i></td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

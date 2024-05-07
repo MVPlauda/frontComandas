@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block menu %}
+
+{% endblock %}
+{% block content %}
+<section class="d-flex align-items-center py-4 bg-body-tertiary">
+<main class="form-signin w-md-40 m-auto">
+    <form action="{{ url_for('login.validaLogin') }}" method="post">
+        <center>
+            <img class="mb-4" src="{{ url_for('static', filename='favicon.ico') }}" alt="" height="57">
+        </center>
+        <h1 class="h3 mb-3 fw-normal">Faça o Login</h1>
+
+        <div class="form-floating mb-3">
+            <input type="text" name="usuario" class="form-control" id="floatingInput" placeholder="000.000.000-00">
+            <label for="floatingInput">CPF</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" name="senha" id="floatingPassword" placeholder="Senha">
+            <label for="floatingPassword">Senha</label>
+        </div>
+
+        <input type="submit" value="Login" class="btn btn-primary w-100 py-2" type="submit">
+    </form>
+</main></section>
+
+{% endblock %}

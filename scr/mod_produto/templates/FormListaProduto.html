@@ -1,14 +1,34 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Produtos</title>
-</head>
+{% block title %}Produtos{% endblock %}
 
-<body>
-    <h1>Rota da página de PRODUTOS da nossa WEB APP</h1>
-    <h1>Uso de render_template</h1>
-</body>
-
-</html>
+{% block content %}
+<form action="{{ url_for('produto.formProduto') }}" class="d-flex" method="GET">
+    <h1>Produtos</h1>
+    <button type="submit" class="btn btn-warning" name="formNovo">Novo Produto</button>
+</form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Imagem</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">...</th>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+            <td>...</td>
+            <td><i class="fas fa-edit"></i></td>
+            <td><i class="fas fa-trash"></i></td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
