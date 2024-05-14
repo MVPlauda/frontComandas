@@ -22,17 +22,21 @@
         </tr>
     </thead>
     <tbody>
+        {% if result %}
+        {% for row in result %}
         <tr>
-            <th scope="row">...</th>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
+            <th scope="row"> {{ row['id'] }}</th>
+            <td> {{ row['nome'] }}</td>
+            <td> {{ row['matricula'] }}</td>
+            <td> {{ row['cpf'] }}</td>
+            <td> {{ row['telefone'] }}</td>
+            <td> {{ row['login'] }}</td>
+            <td> {{ row['senha'] }}</td>
             <td><i class="fas fa-edit"></i></td>
-            <td><i class="fas fa-trash"></i></td>
+            <td><i class='fas fa-trash'></i></td>
         </tr>
+        {% endfor %}
+        {% endif %}
     </tbody>
 </table>
 {% endblock %}

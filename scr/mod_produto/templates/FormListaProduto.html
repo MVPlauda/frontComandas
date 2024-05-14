@@ -11,23 +11,29 @@
     <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Imagem</th>
             <th scope="col">Nome</th>
             <th scope="col">Descrição</th>
             <th scope="col">Preço</th>
-            <th scope="col">Imagem</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <th scope="row">...</th>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-            <td>...</td>
-            <td><i class="fas fa-edit"></i></td>
-            <td><i class="fas fa-trash"></i></td>
+            {% if result %}
+            {% for row in result %}
+            <tr>
+                <th scope="row"> {{ row['id'] }}</th>
+                <td><img class="img-fluid" src="{{ row['foto'] }}" alt="Imagem do Produto"></td>
+                <td> {{ row['nome'] }}</td>
+                <td> {{ row['descricao'] }}</td>
+                <td> R$ {{ row['valor_unitario'] }}</td>
+                <td><i class="fas fa-edit"></i></td>
+                <td><i class='fas fa-trash'></i></td>
+            </tr>
+            {% endfor %}
+            {% endif %}
         </tr>
     </tbody>
 </table>

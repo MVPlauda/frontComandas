@@ -4,7 +4,12 @@
 
 {% block content %}
 <div class="container"></div>
-    <h1>Bem-vindo, Administrador</h1>
+    {% if 'login' in session %}
+    <h1>Bem-vindo, {{ session['nome'] }}</h1>
+        grupo {{ session['grupo'] }}<br>
+        {{ session['token_type'] }}, {{ session['token_validade'] }}<br>
+        Token: {{ session['access_token'] }}
+    {% endif %}
     <div class="row">
         <div class="col-md-3">
             <div class="card">

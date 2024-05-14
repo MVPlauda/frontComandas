@@ -13,6 +13,7 @@
 
 <body data-bs-theme="dark">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {% block menu %}
 
     <header style="min-height: 60px;">
@@ -44,6 +45,10 @@
                             <a class="nav-link" href="{{ url_for('produto.formListaProduto') }}"><i
                                     class="fas fa-pizza-slice"></i> PRODUTOS</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('login.logoff') }}" class="nav-link"><i class="fas fa-door-open"></i>
+                                SAIR</a>>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -52,28 +57,28 @@
 
     {% endblock %}
     <div class="container mt-3">
+        <!-- redirect - request.args.get('msg' ou 'msgErro') -->
         {% if request.args.get('msg'): %}
-
         <h3>{{ request.args.get('msg') }}</h3><br>
-
-        {% elif msg: %}
-
-        <h3>{{ msg }}</h3><br>
-
-        {% elif request.args.get('msgErro'): %}
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "{{ request.args.get('msgErro') }}",
-            });
+            Swal.fire("Sucesso", "{{ request.args.get('msg') }}", "success");
         </script>
-
+        {% elif request.args.get('msgErro'): %}
+        <h3>{{ request.args.get('msgErro') }}</h3><br>
+        <script>
+            Swal.fire("Erro", "{{ request.args.get('msgErro') }}", "error");
+        </script>
+        <!-- render_template - msg ou msgErro -->
+        {% elif msg: %}
+        <h3>{{ msg }}</h3><br>
+        <script>
+            Swal.fire("ID {{ msg.id }}, {{ msg.msg }} ", "{{ msg }}", "success");
+        </script>
         {% elif msgErro: %}
-
         <h3>{{ msgErro }}</h3><br>
-
+        <script>
+            Swal.fire("{{ msgErro.msg if msgErro.msg else 'Erro' }}", "{{ msgErro }}", "error");
+        </script>
         {% endif %}
 
         {% block content %}{% endblock %}
