@@ -7,36 +7,38 @@
     <h1>Cliente</h1>
     <button type="submit" class="btn btn-warning" name="formNovo">Novo Cliente</button>
 </form>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Matricula</th>
-            <th scope="col">CPF</th>
-            <th scope="col">Telefone</th>
-            <th scope="col">Login</th>
-            <th scope="col">Senha</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% if result %}
-        {% for row in result %}
-        <tr>
-            <th scope="row"> {{ row['id'] }}</th>
-            <td> {{ row['nome'] }}</td>
-            <td> {{ row['matricula'] }}</td>
-            <td> {{ row['cpf'] }}</td>
-            <td> {{ row['telefone'] }}</td>
-            <td> {{ row['login'] }}</td>
-            <td> {{ row['senha'] }}</td>
-            <td><i class="fas fa-edit"></i></td>
-            <td><i class='fas fa-trash'></i></td>
-        </tr>
-        {% endfor %}
-        {% endif %}
-    </tbody>
-</table>
+<div class="overflow-x-auto">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Matricula</th>
+                <th scope="col">CPF</th>
+                <th scope="col">Telefone</th>
+                <th scope="col">Login</th>
+                <th scope="col">Senha</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if result %}
+            {% for row in result %}
+            <tr>
+                <th scope="row"> {{ row['id'] }}</th>
+                <td> {{ row['nome'] }}</td>
+                <td> {{ row['matricula'] }}</td>
+                <td> {{ row['cpf'] }}</td>
+                <td> {{ row['telefone'] }}</td>
+                <td> {{ row['login'] }}</td>
+                <td> {{ row['senha'] }}</td>
+                <td><i class="fas fa-edit"></i></td>
+                <td><i class='fas fa-trash'></i></td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

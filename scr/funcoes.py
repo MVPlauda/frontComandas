@@ -1,0 +1,14 @@
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")  # Hash da senha do usuário
+
+
+class Funcoes(object):
+    @staticmethod
+    def verify_password(plain_password, password):
+        return pwd_context.verify(plain_password, password)
+
+    # Sempre gera um hash diferente, mas o método verify criado na API consegue comparar
+    @staticmethod
+    def get_password_hash(password):
+        return pwd_context.hash(password)

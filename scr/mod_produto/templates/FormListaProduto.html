@@ -7,22 +7,23 @@
     <h1>Produtos</h1>
     <button type="submit" class="btn btn-warning" name="formNovo">Novo Produto</button>
 </form>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Imagem</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Preço</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            {% if result %}
-            {% for row in result %}
+<div class="overflow-x-auto">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Imagem</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Preço</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                {% if result %}
+                {% for row in result %}
             <tr>
                 <th scope="row"> {{ row['id'] }}</th>
                 <td><img class="img-fluid" src="{{ row['foto'] }}" alt="Imagem do Produto"></td>
@@ -34,7 +35,8 @@
             </tr>
             {% endfor %}
             {% endif %}
-        </tr>
-    </tbody>
-</table>
+            </tr>
+        </tbody>
+    </table>
+</div>
 {% endblock %}
