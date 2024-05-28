@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}INDEX{% endblock %}
+
+{% block content %}
+<div class="container"></div>
+    {% if 'login' in session %}
+    <h1>Bem-vindo, {{ session['nome'] }}</h1>
+        grupo {{ session['grupo'] }}<br>
+        {{ session['token_type'] }}, {{ session['token_validade'] }}<br>
+        Token: {{ session['access_token'] }}
+    {% endif %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Produtos</h5>
+                    <p class="card-text">Aqui você pode gerenciar os produtos.</p>
+                    <a href="{{ url_for('produto.formListaProduto') }}" class="btn btn-primary">Ir para Produtos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Funcionários</h5>
+                    <p class="card-text">Aqui você pode gerenciar os funcionários.</p>
+                    <a href="{{ url_for('funcionario.formListaFuncionario') }}" class="btn btn-primary">Ir para Funcionários</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Clientes</h5>
+                    <p class="card-text">Aqui você pode gerenciar os clientes.</p>
+                    <a href="{{ url_for('cliente.formListaCliente') }}" class="btn btn-primary">Ir para Clientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Comandas</h5>
+                    <p class="card-text">SESSÃO ILUSTRATIVA</p>
+                    <a href="#" class="btn btn-primary">Ir para Comandas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
