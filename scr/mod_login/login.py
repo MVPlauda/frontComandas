@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 import requests
 from settings import ENDPOINT_TOKEN
 from datetime import datetime, timedelta
+from functools import wraps
 
 bp_login = Blueprint('login', __name__, url_prefix='/', template_folder='templates')
 
@@ -10,7 +11,7 @@ def login():
     return render_template("formLogin.html")
 
 @bp_login.route('/login', methods=['POST'])
-def validaToken():
+def fazLogin():
     try:
         session.clear()
         headers = {
@@ -22,6 +23,7 @@ def validaToken():
             'password': request.form['senha'],
             'grant_type': '', 'scope': '', 'client_id': '', 'client_secret': ''
         }
+
         response = requests.post(ENDPOINT_TOKEN, headers=headers, data=data)
         access_token = response.json()
         if (response.status_code != 200):
@@ -37,7 +39,6 @@ def validaToken():
         session['nome'] = request.form['usuario']
         session['login'] = request.form['usuario']
         session['grupo'] = "1"
-
         # abre a aplicação na tela home
         return redirect(url_for('index.formIndex'))
     except Exception as e:
@@ -52,3 +53,16 @@ def logoff():
     session.clear()
     # retorna para a tela de login
     return redirect(url_for('login.login'))
+
+# valida se o token esta na sessão e se ainda é
+def validaToken(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'token_validade' in session and session['token_validade'] > datetime.timestamp(datetime.now()):
+        # retorna os dados copiados da função original
+            return f(*args, **kwargs)
+        else:
+            return redirect(url_for('login.login', msgErro='Usuário não logado! Token expirado!'))
+
+    # retorna o resultado do if acima
+    return decorated_function

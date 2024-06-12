@@ -31,7 +31,7 @@
                 <td> {{ row['senha'] }}</td>
                 <td>
                     <form action="{{ url_for('funcionario.formEditFuncionario') }}" method="POST"
-                        name="formEdit{{ row['id_funcionario'] }}">
+                        name="formEdit{{ row['id'] }}">
                         <input type="hidden" name="id" value="{{ row['id'] }}">
                         <button type="submit" name="formEditFuncionario" class="btn btn-outline-secondary"> <i class="fas fa-edit"></i>
                         </button>
@@ -68,6 +68,7 @@
             }
         })
     })
+
     // sempre pega a url da barra de endereço
     $SCRIPT_ROOT = '';
     function deletarFuncionario(idFuncionario) {

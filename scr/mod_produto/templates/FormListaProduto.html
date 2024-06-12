@@ -21,22 +21,71 @@
             </tr>
         </thead>
         <tbody>
+            {% if result %}
+            {% for row in result %}
             <tr>
-                {% if result %}
-                {% for row in result %}
-            <tr>
-                <th scope="row"> {{ row['id'] }}</th>
-                <td><img class="img-fluid" src="{{ row['foto'] }}" alt="Imagem do Produto"></td>
-                <td> {{ row['nome'] }}</td>
-                <td> {{ row['descricao'] }}</td>
-                <td> R$ {{ row['valor_unitario'] }}</td>
-                <td><i class="fas fa-edit"></i></td>
-                <td><i class='fas fa-trash'></i></td>
+                <th scope="row"> {{ row.id }}</th>
+                <td><img src="{{ row.foto }}" width="100" id="myImg"></td>
+                <td> {{ row.nome }}</td>
+                <td> {{ row.descricao }}</td>
+                <td> {{ row.valor_unitario }}</td>
+                <td>
+                    <form action="{{ url_for('produto.formEditProduto') }}" method="POST" name="formEdit{{ row['id'] }}">
+                        <input type="hidden" name="id" value="{{ row['id'] }}">
+                        <button type="submit" name="formEditProduto" class='btn'> <i class="fas fa-edit"></i></button>
+                    </form>
+                </td>
+                <td>
+                    <form method='POST' name='jsDelete' id='jsDelete'>
+                        <input type='hidden' name='id' value="{{ row['id'] }}">
+                        <button type='submit' name='formDeleteProduto' class='btn'><i class='fas fa-trash'></i></button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
             {% endif %}
-            </tr>
         </tbody>
     </table>
 </div>
+{% endblock %}
+{% block js %}
+<script>
+    $SCRIPT_ROOT = '';
+    $("form[name='jsDelete']").submit(function (e) {
+        // parar o envio para poder fazer manualmente
+        e.preventDefault();
+        Swal.fire({
+            title: '', text: "Deseja realmente excluir: " + $(e.target)[0][0].value, icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6', cancelButtonColor: '#d33',
+            cancelButtonText: 'Cancelar', confirmButtonText: 'Sim'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deletarProduto($(e.target)[0][0].value); // Retorna o valor que está no id
+            }
+        })
+    })
+    function deletarProduto(idProduto) {
+        $.post($SCRIPT_ROOT + "{{ url_for('produto.delete') }}", {
+            id_produto: idProduto
+        }, function (data) {
+            if (!data.erro) {
+                Swal.fire({
+                    title: '', text: 'ID' + data.msg.id + ', ' + data.msg.msg, icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.replace($SCRIPT_ROOT + "{{ url_for('produto.formListaProduto') }}");
+                    }
+                })
+            }
+            else {
+
+                Swal.fire(data.msgErro.msg, data.msgErro.erro, "error");
+            }
+        }
+        )
+    }
+</script>
 {% endblock %}

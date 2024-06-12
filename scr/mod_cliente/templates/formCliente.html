@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Cliente{% endblock %}
+{% set id = result[0].id if result else '0' %}
+{% set nome = result[0].nome if result else '' %}
+{% set matricula = result[0].matricula if result else '' %}
+{% set cpf = result[0].cpf if result else '' %}
+{% set telefone = result[0].telefone if result else '' %}
+{% set login = result[0].login if result else '' %}
+{% set senha = result[0].senha if result else '' %}
 {% block content %}
-<form name="formAdicionar" id="formAdicionar" action="" method="POST">
+
+<form name="{{ 'formEditar' if result else 'formAdicionar' }}" id="{{ 'formEditar' if result else 'formAdicionar' }}"
+ action="{{ url_for('cliente.edit') if result else url_for('cliente.insert') }}" method="POST">
     <h1>Cliente</h1>
 
+    <input class="form-control" hidden type="text" name="id" id="id" value="{{ id }}" placeholder="Código" readonly>
     <!-- <div class="mb-3">
         <label for="id" class="form-label">Código</label>
         <input class="form-control" type="text" name="id" id="id" value="" placeholder="Código" readonly>
@@ -11,42 +21,40 @@
 
     <div class="mb-3">
         <label class="form-label" for="nome">Nome Cliente</label>
-        <input class="form-control" type="text" name="nome" id="nome" value="" placeholder="Nome Cliente"
+        <input class="form-control" type="text" name="nome" id="nome" value="{{ nome }}" placeholder="Nome Cliente"
             maxlength="100" autofocus required>
     </div>
 
     <div class="mb-3">
         <label class="form-label" for="matricula">Matrícula</label>
-        <input class="form-control" type="text" name="matricula" id="matricula" value="" placeholder="Matrícula"
+        <input class="form-control" type="text" name="matricula" id="matricula" value="{{ matricula }}" placeholder="Matrícula"
             maxlength="15" required>
     </div>
 
     <div class="mb-3">
         <label for="cpf">CPF</label>
-        <input class="form-control" type="text" name="cpf" id="cpf" value="" placeholder="CPF" maxlength="15" required>
+        <input class="form-control" type="text" name="cpf" id="cpf" value="{{ cpf }}" placeholder="CPF" maxlength="15" required>
     </div>
 
     <div class="mb-3">
         <label for="telefone" class="form-label">Telefone</label>
-        <input class="form-control" type="tel" name="telefone" id="telefone" value="" placeholder="Telefone"
+        <input class="form-control" type="tel" name="telefone" id="telefone" value="{{ telefone }}" placeholder="Telefone"
             maxlength="15" required>
     </div>
-
     <div class="mb-3">
-
-        <label for="login" class="form-label">Login</label>
-        <input class="form-control" type="tel" name="login" id="login" value="" placeholder="Login"
+        <label for="telefone" class="form-label">Login</label>
+        <input class="form-control" type="text" name="login" id="login" value="{{ login }}" placeholder="login"
             maxlength="15" required>
     </div>
 
     <div class="mb-3">
         <label for="senha">Senha</label>
-        <input class="form-control" type="password" name="senha" id="senha" value="Bolinhas" placeholder="Senha" required>
+        <input class="form-control" type="password" name="senha" id="senha" value="{{ senha }}" placeholder="Senha" required>
     </div>
 
     <div class="mb-3">
         <label for="resenha">Repetir Senha</label>
-        <input class="form-control" type="password" name="resenha" id="resenha" value="Bolinhas" placeholder="Repetir Senha" required>
+        <input class="form-control" type="password" name="resenha" id="resenha" value="" placeholder="Repetir Senha" required>
     </div>
 
     <button class="btn btn-primary" type='submit' name='salvaClienteDB' id='salvaClienteDB'><i class='fas fa-save'></i> Salvar</button>

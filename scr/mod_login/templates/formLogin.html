@@ -6,7 +6,7 @@
 {% block content %}
 <section class="d-flex align-items-center py-4 bg-body-tertiary">
 <main class="form-signin w-md-40 m-auto">
-    <form action="{{ url_for('login.validaToken') }}" method="post">
+    <form action="{{ url_for('login.fazLogin') }}" method="post">
         <center>
             <img class="mb-4" src="{{ url_for('static', filename='favicon.ico') }}" alt="" height="57">
         </center>
