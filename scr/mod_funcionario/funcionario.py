@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify,send_file
+from reportlab.pdfgen import canvas
 import requests
 from mod_login.login import validaToken
 from funcoes import Funcoes
 from settings import getHeadersAPI, ENDPOINT_FUNCIONARIO
+import os
 
 bp_funcionario = Blueprint('funcionario', __name__, url_prefix="/funcionario", template_folder='templates')
 
@@ -13,10 +15,6 @@ def formListaFuncionario():
     try:
         response = requests.get(ENDPOINT_FUNCIONARIO, headers=getHeadersAPI())
         result = response.json()
-
-        # para teste
-        print(result)
-        print(response.status_code)
 
         if response.status_code != 200:
             raise Exception(result)
@@ -29,6 +27,7 @@ def formListaFuncionario():
 @bp_funcionario.route('/form-funcionario/', methods=['GET'])
 @validaToken
 def formFuncionario():
+
     return render_template('formFuncionario.html')
 
 @bp_funcionario.route('/insert', methods=['POST'])
@@ -83,6 +82,7 @@ def formEditFuncionario():
         if (response.status_code != 200):
             raise Exception(result)
             # renderiza o form passando os dados retornados
+
         return render_template('formFuncionario.html', result=result[0])
     except Exception as e:
         return render_template('formListaFuncionario.html', msgErro=e.args[0])
@@ -127,3 +127,47 @@ def delete():
         return jsonify(erro=False, msg=result[0])
     except Exception as e:
         return jsonify(erro=True, msgErro=e.args[0])
+
+@bp_funcionario.route('/pdf', methods=['GET'])
+@validaToken
+def generate_pdf():   
+    try:
+        response = requests.get(ENDPOINT_FUNCIONARIO, headers=getHeadersAPI())
+        result = response.json()
+        # Create a new PDF document
+        pdf = canvas.Canvas("scr\media_files\Relatorio_funcionario.pdf")
+
+        # Set the font and font size
+        pdf.setFont("Helvetica", 12)
+
+        # Write the text
+        pdf.drawString(100, 700, "Relatório de Funcionários")
+        pdf.drawString(100, 680, "-----------------------------------------")
+
+        # Write the table headers
+        pdf.drawString(100, 660, "ID")
+        pdf.drawString(200, 660, "Nome")
+        pdf.drawString(300, 660, "Matrícula")
+        pdf.drawString(400, 660, "CPF")
+        pdf.drawString(500, 660, "Telefone")
+        pdf.drawString(600, 660, "Grupo")
+    
+        # Write the data rows
+        y = 640  # starting y-coordinate for the first row
+        for funcionario in result[0]:
+            pdf.drawString(100, y, str(funcionario['id']))
+            pdf.drawString(200, y, funcionario['nome'])
+            pdf.drawString(300, y, funcionario['matricula'])
+            pdf.drawString(400, y, funcionario['cpf'])
+            pdf.drawString(500, y, funcionario['telefone'])
+            pdf.drawString(600, y, str(funcionario['grupo']))
+            y -= 20  # decrement y-coordinate for the next row
+
+        # Save the PDF document
+        pdf.save()
+
+        # Return the PDF file for download
+        return send_file("media_files/Relatorio_funcionario.pdf", as_attachment=True)
+    except Exception as e:
+        print(e)
+        return render_template('formListaFuncionario.html', msgErro=e.args[0])

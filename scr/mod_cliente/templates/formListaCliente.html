@@ -3,10 +3,15 @@
 {% block title %}Clientes{% endblock %}
 
 {% block content %}
-<form action="{{ url_for('cliente.formCliente') }}" method="GET">
-    <h1>Cliente</h1>
-    <button type="submit" class="btn btn-warning" name="formNovo">Novo Cliente</button>
-</form>
+<div class="d-flex align-items-center">
+    <form action="{{ url_for('cliente.formCliente') }}" class="d-flex align-items-center" method="GET">
+        <h1>Cliente</h1>
+        <button type="submit" class="btn btn-warning" name="formNovo">Novo Cliente</button>
+    </form>
+    <form action="{{ url_for('cliente.generate_pdf') }}" method="get">
+        <button type="submit" class="btn btn-warning ms-2 h-100" name="formPdf">Gerar PDF</button>
+    </form>
+</div>
 <div class="overflow-x-auto">
     <table class="table table-striped">
         <thead>

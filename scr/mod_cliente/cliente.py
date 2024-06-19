@@ -1,9 +1,11 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify, send_file
 import requests
 from mod_login.login import validaToken
 from settings import getHeadersAPI, ENDPOINT_CLIENTE
 from funcoes import Funcoes
 bp_cliente = Blueprint('cliente', __name__, url_prefix="/cliente", template_folder='templates')
+from reportlab.pdfgen import canvas
+import os
 
 ''' rotas dos formulários '''
 @bp_cliente.route('/')
@@ -124,3 +126,47 @@ def delete():
         return jsonify(erro=False, msg=result[0])
     except Exception as e:
         return jsonify(erro=True, msgErro=e.args[0])
+
+
+@bp_cliente.route('/pdf', methods=['GET'])
+@validaToken
+def generate_pdf():   
+    try:
+        response = requests.get(ENDPOINT_CLIENTE, headers=getHeadersAPI())
+        result = response.json()
+
+        # Create a new PDF document
+        pdf = canvas.Canvas("scr\media_files\Relatorio_cliente.pdf")
+
+        # Set the font and font size
+        pdf.setFont("Helvetica", 12)
+
+        # Write the text
+        pdf.drawString(100, 700, "Relatório de Clientes")
+        pdf.drawString(100, 680, "-----------------------------------------")
+
+        # Write the table headers
+        pdf.drawString(100, 660, "ID")
+        pdf.drawString(200, 660, "Nome")
+        pdf.drawString(300, 660, "Matrícula")
+        pdf.drawString(400, 660, "CPF")
+        pdf.drawString(500, 660, "Telefone")
+    
+        # Write the data rows
+        y = 640  # starting y-coordinate for the first row
+        for cliente in result[0]:
+            pdf.drawString(100, y, str(cliente['id']))
+            pdf.drawString(200, y, cliente['nome'])
+            pdf.drawString(300, y, cliente['matricula'])
+            pdf.drawString(400, y, cliente['cpf'])
+            pdf.drawString(500, y, cliente['telefone'])
+            y -= 20  # decrement y-coordinate for the next row
+
+        # Save the PDF document
+        pdf.save()
+
+        # Return the PDF file for download
+        return send_file("media_files/Relatorio_cliente.pdf", as_attachment=True)
+    except Exception as e:
+        print(e)
+        return render_template('formListacliente.html', msgErro=e.args[0])

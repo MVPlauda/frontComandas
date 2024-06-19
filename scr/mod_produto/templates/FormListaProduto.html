@@ -3,10 +3,15 @@
 {% block title %}Produtos{% endblock %}
 
 {% block content %}
-<form action="{{ url_for('produto.formProduto') }}" class="d-flex" method="GET">
-    <h1>Produtos</h1>
-    <button type="submit" class="btn btn-warning" name="formNovo">Novo Produto</button>
-</form>
+<div class="d-flex align-items-center">
+    <form action="{{ url_for('produto.formProduto') }}" class="d-flex align-items-center" method="GET">
+        <h1>Produtos</h1>
+        <button type="submit" class="btn btn-warning" name="formNovo">Novo Produto</button>
+    </form>
+    <form action="{{ url_for('produto.generate_pdf') }}" method="get">
+        <button type="submit" class="btn btn-warning ms-2 h-100" name="formPdf">Gerar PDF</button>
+    </form>
+</div>
 <div class="overflow-x-auto">
     <table class="table table-striped">
         <thead>
@@ -30,7 +35,8 @@
                 <td> {{ row.descricao }}</td>
                 <td> {{ row.valor_unitario }}</td>
                 <td>
-                    <form action="{{ url_for('produto.formEditProduto') }}" method="POST" name="formEdit{{ row['id'] }}">
+                    <form action="{{ url_for('produto.formEditProduto') }}" method="POST"
+                        name="formEdit{{ row['id'] }}">
                         <input type="hidden" name="id" value="{{ row['id'] }}">
                         <button type="submit" name="formEditProduto" class='btn'> <i class="fas fa-edit"></i></button>
                     </form>
